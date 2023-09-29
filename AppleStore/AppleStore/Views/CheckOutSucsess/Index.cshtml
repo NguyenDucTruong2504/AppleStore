@@ -1,0 +1,174 @@
+﻿@using AppleStore.Models 
+@{
+    ViewBag.Title = "Index";
+    CartShop x = ViewData["Cart"] as CartShop;
+}
+
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url(../Materials/images/ip111.PNG);" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+            <div class="col-md-9 ftco-animate text-center mb-4">
+                <h1 class="mb-2 bread">Check Out Sucsess</h1>
+                <p class="breadcrumbs"><span class="mr-2"><a href="@Url.Action("index", "Home")">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Check Out Sucsess <i class="ion-ios-arrow-forward"></i></span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<h1 style="text-align:center; padding:20px; color:darkblue;font-weight:bold">You have successfully created an order</h1>
+<h3 style="text-align:center; padding:20px; color:yellowgreen;font-weight:bold">Please confirm the product you ordered </h3>
+<!-- Main content -->
+<div class="invoice p-3 mb-3">
+    <!-- title row -->
+    <div class="row">
+        <div class="col-12">
+            <h4>
+                <img style="width:50px;height:50px" src="~/Materials/images/apple.png" /> Apple Store Inc.
+                <small class="float-right">Date: 2/10/2014</small>
+            </h4>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- info row -->
+    <div class="row invoice-info">
+        <div class="col-sm-4 invoice-col">
+            <address>
+                <strong><img style="width:30px;height:30px" src="~/Materials/images/apple.png" />Apple Store</strong><br>
+                Thành Phố Hồ Chí Minh<br>
+                Việt Nam<br>
+                Phone: + 1235 2355 98<br>
+                Email: AppleInc@gmail.com
+            </address>
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4 invoice-col">
+            <address>
+                <strong>Nguyễn Hoàng Vương</strong><br>
+                Phan Thiết - Bình Thuận<br>
+                Việt Nam<br>
+                Phone: 0589025209<br>
+                Email: Hoanvuonq2002@gmail.com
+            </address>
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4 invoice-col">
+            <b>Invoice #007612</b><br>
+            <br>
+            <b>Order ID:</b> 4F3S8J<br>
+            <b>Payment Due:</b> 2/22/2014<br>
+            <b>Account:</b> 968-34567
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    <!-- Table row -->
+    <div class="row">
+        <div class="col-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr class=" cart_menu">
+                        <td class="image">Item</td>
+                        <td class="description"></td>
+                        <td class="price">Price</td>
+                        <td class="quantity">Quantity</td>
+                        <td class="total">Total</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (CtDonHang i in x.SanPhamDC.Values)
+                        {
+                            <tr>
+                                <td class="cart_product">
+                                    <a href=""><img style="height:120px;width:120px" src="@Common.GetImageOfProductsById(i.maSP)" /></a>
+                                </td>
+                                <td class="cart_description">
+                                    <h5><a href="">@Common.GetNameOfProductsById(i.maSP)</a></h5>
+                                    <p> ID : @i.maSP</p>
+                                </td>
+                                <td class="cart_price">
+                                    <p>@string.Format("{0:###,###,###0 .VNĐ}", i.giaBan)</p>
+                                </td>
+                                <td class="cart_quantity">
+                                    <div class="cart_quantity_button">
+                                        <input class="cart_quantity_input" type="text" name="quantity" value="@i.soLuong" autocomplete="off" size="2" />
+                                    </div>
+                                </td>
+                                <td class="cart_total">
+                                    <p class="cart_total_price">
+                                        @string.Format("{0:###,###,###0 .VNĐ}", x.moneyOfOneProduct(i))
+                                    </p>
+                                </td>
+                                <td class="cart_delete">
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <!-- accepted payments column -->
+        <div class="col-6">
+            <p class="lead">Payment Methods:</p>
+            <img src="~/Materials/images/visa.png" alt="Visa">
+            <img src="~/Materials/images/mastercard.png" alt="Mastercard">
+            <img src="~/Materials/images/american-express.png" alt="American Express">
+            <img src="~/Materials/images/paypal2.png" alt="Paypal">
+
+            <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+                Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem
+                plugg
+                dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
+            </p>
+        </div>
+        <!-- /.col -->
+        <div class="col-6">
+            <p class="lead">Amount Due 2/22/2014</p>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th style="width:50%">Total value:</th>
+                        <td>@string.Format("{0:###,###,###0 .VNĐ}", x.totalOfCartShop())</td>
+                    </tr>
+                    <tr>
+                        <th>Tax VAT: 10%</th>
+                        <td>@string.Format("{0:###,###,###0 .VNĐ}", ((x.totalOfCartShop() * 10) / 100))</td>
+                    </tr>
+                    <tr>
+                        <th>Delivery fee:</th>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th>Total:</th>
+                        <td>@string.Format("{0:###,###,###0 .VNĐ}", (x.totalOfCartShop() + (x.totalOfCartShop() * 10) / 100))</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    <!-- this row will not appear when printing -->
+    <div class="row no-print">
+        <div class="col-12">
+            <button type="button" class="btn btn-success float-right">
+                <i class="far fa-credit-card"><a style="color:white" href="@Url.Action("index", "Store")"> Continue to order</i>
+            </button>
+            <button type="button" class="btn btn-danger float-left">
+                <i class="far fa-credit-card"><a style="color:white" href="@Url.Action("index", "CheckOut")"> Back to CheckOut</i>
+            </button>
+
+        </div>
+    </div>
+</div>
+<!-- /.invoice -->

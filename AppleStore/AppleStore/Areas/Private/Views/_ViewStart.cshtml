@@ -1,0 +1,10 @@
+﻿@using AppleStore.Models
+@{
+
+    TaiKhoan x = (TaiKhoan)Session["TtDangNhap"];
+    if (x == null)
+    {
+        Response.Redirect("~/login");
+    }
+    Layout = "~/Areas/Private/Views/Shared/_Layout.cshtml";
+}

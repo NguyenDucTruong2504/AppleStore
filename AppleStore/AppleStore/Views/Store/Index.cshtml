@@ -1,0 +1,104 @@
+﻿@using AppleStore.Models
+@{
+    ViewBag.Title = "Index";
+    
+}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url(../Materials/images/ip111.PNG);" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+            <div class="col-md-9 ftco-animate text-center mb-4">
+                <h1 class="mb-2 bread">Specialties</h1>
+                <p class="breadcrumbs"><span class="mr-2"><a href="@Url.Action("index", "Home")">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Store<i class="ion-ios-arrow-forward"></i></span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="ftco-search">
+            <div class="row">
+                <div class="col-md-12 nav-link-wrap">
+                    <div class="nav nav-pills d-flex text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                        @{ int d = 0;
+                            foreach (LoaiSP i in Common.getCategories())
+                            {
+
+                                <a class="nav-link ftco-animate nav-link @(d++== 0? "active" : "")"
+                                   id="@i.maLoai-tab" data-toggle="tab" href="#abc-@i.maLoai"
+                                   role="tab" aria-controls="@i.maLoai" aria-selected="false">
+                                    @i.tenLoai
+                                </a>
+
+                            }
+
+                        }
+                    </div>
+                </div>
+                <div class="col-md-12 tab-wrap">
+                    <div class="tab-content" id="v-pills-tabContent">
+                    @{
+                        int m = 0;
+                        foreach (LoaiSP i in Common.getCategories())
+                        {
+                            <div class="tab-pane fade show @(m++== 0? "active": "")" id="abc-@i.maLoai" role="tabpanel" aria-labelledby="@i.maLoai-tab">
+                                <div class="row no-gutters d-flex align-items-stretch">
+                                    @{ int n = 1;
+                                        foreach (SanPham j in Common.getProductsByLoaiSP(i.maLoai))
+                                        {
+                                            <div class="col-md-12 col-lg-6 d-flex align-self-stretch">
+                                                <div style="margin:10px" class="menus d-sm-flex ftco-animate align-items-stretch">
+                                                    <div>
+                                                        <img style="height:300px ; width:320px" class="menu-img img" src="@j.hinhDD" />
+                                                    </div>
+
+                                                    <div class="text d-flex align-items-center">
+                                                        <div>
+                                                            <div class="d-flex">
+                                                                <div class="one-half">
+                                                                    <h6 style="position: absolute; margin-top: -42px; font-size: 15px; font-weight: bold;">@j.tenSP</h6>
+                                                                </div>
+                                                                <div class="one-forth">
+                                                                    <span class="price">
+                                                                        <h6 style="position: absolute; margin-top: 10px; font-weight: bold;">@string.Format("{0:###,###,###0 .VNĐ}", j.giaBan)</h6>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <p style="margin-top: 70px; position: absolute }"><a href="@Url.Action("index", "Productdetail" , new {maSP = j.maSP})" class="btn btn-primary">Order now</a></p>
+                                                            @using (Html.BeginForm("AddToCart", "Store", FormMethod.Post))
+                                                            {
+                                                                <input name="maSP" type="hidden" value="@j.maSP" />
+                                                                <button style="margin-left: 130px; margin-top: -39px; position: absolute; border-radius:14px"><img style="height:30px;width:30px" src="~/Materials/images/giohang2.png" /></button>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            if (n++ >= 25)
+                                            {
+                                                break;
+                                            }
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        }
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

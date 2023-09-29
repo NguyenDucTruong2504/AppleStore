@@ -1,0 +1,85 @@
+﻿@using AppleStore.Models
+
+@model AppleStore.Models.KhachHang
+@{
+    ViewBag.Title = "Index";
+    List<KhachHang> List = ViewData["Dskhachhang"] as List<KhachHang>;
+}
+<style>
+    button {
+        font-size: 13px;
+    }
+
+    button {
+        display: inline-flex;
+    }
+</style>
+
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Danh sách khách hàng </h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Danh sách khách hàng</a></li>
+                        <li class="breadcrumb-item active">Đơn mới</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                       
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Mã Khách Hàng</th>
+                                        <th>Tên khách hàng</th>
+                                        <th>Số Điện Thoại</th>
+                                        <th>Email</th>
+                                        <th>Ngày Sinh</th>
+                                        <th>Địa Chỉ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        foreach (KhachHang i in List)
+                                        {
+                                            <tr>
+                                                <td>@i.maKH</td>
+                                                <td>@i.tenKH</td>
+                                                <td>@i.soDT</td>
+                                                <td>@i.email</td>
+                                                <td>@i.ngaySinh</td>
+
+                                                <td>@i.diaChi</td>
+                                            </tr>
+                                        }
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+

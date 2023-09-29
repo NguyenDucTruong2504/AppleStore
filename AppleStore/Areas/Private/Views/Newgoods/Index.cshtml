@@ -1,0 +1,72 @@
+﻿@using AppleStore.Models
+
+@{
+    ViewBag.Title = "Index";
+    List<DonHang> List = ViewData["DsDonHang"] as List<DonHang>;
+}
+
+
+<style>
+    form {
+        display: inline;
+    }
+</style>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Danh sách các đơn hàng trong hệ thống</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Quản trị</a></li>
+                        <li class="breadcrumb-item active">Danh sách đơn hàng đã duyệt</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>ID Đơn Hàng</th>
+                    <th>Mã Khách Hàng</th>
+                    <th>Tài Khoản</th>
+                    <th>Ngày Giao Hàng</th>
+                    <th>Địa Chỉ </th>
+                   
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (DonHang i in List)
+                    {
+                                <tr>
+                                    <td>@i.soDH</td>
+                                    <td>@i.maKH</td>
+                                    <td>@i.taiKhoan</td>
+                                    <td>@i.ngayGH</td>
+                                    <td>@i.diaChiGH</td>
+                                    
+
+                                </tr>
+                    }
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+
+
+
+

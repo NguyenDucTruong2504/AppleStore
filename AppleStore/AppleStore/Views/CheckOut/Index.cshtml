@@ -1,0 +1,232 @@
+﻿@model AppleStore.Models.KhachHang
+@using AppleStore.Models
+@{
+    ViewBag.Title = "Index";
+    CartShop x = ViewData["Cart"] as CartShop;
+
+}
+<style>
+    tr.cart_menu {
+        background-color: orange;
+        font-size: 20px;
+    }
+
+    input.cart_quantity_input {
+        width: 55px;
+    }
+
+    .cart_quantity_button {
+        display: flex;
+    }
+
+    .cart_quantity_input {
+        text-align: center;
+        padding: 3px;
+        border-radius: 10px;
+        border: 1px solid;
+    }
+
+    .cart_quantity_up {
+        margin-left: 10px;
+        border-radius: 30px;
+        border: 1px solid chartreuse;
+    }
+
+    .cart_quantity_down {
+        margin-right: 10px;
+        border-radius: 30px;
+        border: 1px solid chartreuse;
+    }
+
+    li {
+        display: block;
+    }
+
+    hr {
+        width: 100%;
+        background-color: orange;
+    }
+
+    .btn-defaut.update {
+        background-color: orange;
+        margin-left: 80px;
+    }
+
+    .btn-defaut.check_out {
+        background-color: orange;
+        margin-left: 10px;
+    }
+
+    .blog-area.section-padding {
+        padding: 100px;
+    }
+
+    .cart_total_price {
+        font-size: 21px;
+        font-weight: bold;
+        color: orange;
+    }
+
+    .cart_quantity_delete {
+        border-radius: 30px;
+        border: 1px solid chartreuse;
+    }
+
+    .btn-default {
+        background-color: orange;
+        color: white;
+    }
+</style>
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url(../Materials/images/ip111.PNG);" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+            <div class="col-md-9 ftco-animate text-center mb-4">
+                <h1 class="mb-2 bread">Check Out</h1>
+                <p class="breadcrumbs"><span class="mr-2"><a href="@Url.Action("index", "Home")">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>CheckOut <i class="ion-ios-arrow-forward"></i></span></p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="blog-area section-padding">
+    <div class="container">
+        <div class="shopper-informations">
+            @using (Html.BeginForm("SaveToDataBase", "CheckOut", FormMethod.Post))
+            {
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="shopper-info">
+                            <p> Thông tin khách hàng</p>
+                            <div class="form-group">
+                                <label for="hoTen">Họ và tên Khách hàng : </label>
+                                @Html.TextBoxFor(m => m.tenKH, new { @class = "form-control", @placeholder = "Display Name" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:0">
+                                <label class="radio-inline">@Html.RadioButtonFor(m => m.gioiTinh, new { @name = "gioiTinh" }) Nam</label>
+                                <label class="radio-inline">@Html.RadioButton("gioiTinh", false) Nữ</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="ngaySinh">Ngày Sinh : </label>
+                                @Html.TextBoxFor(m => m.ngaySinh, new { @type = "date", @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-default"><a style="color: white;" href="@Url.Action("index", "CartShop")">&lt;&lt; Back to cart</a></button>
+                                <button class=" btn btn-success">Payment</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="bill-to">
+                            <p>Thông tin liên lạc</p>
+                            <div class="form-one">
+                                <div class="form-group">
+                                    <label for="soDt">Số điện thoại</label>
+                                    @Html.TextBoxFor(m => m.soDT, new { @class = "form-control", @placeholder = "Your phone number" })
+                                </div>
+                                <div class="form-group">
+                                    <label for="mail">Email address</label>
+                                    @Html.TextBoxFor(m => m.email, new { @class = "form-control", @placeholder = "Email address" })
+                                </div>
+                                <div class="form-group">
+                                    <label for="addr">Địa chỉ giao hàng</label>
+                                    @Html.TextBoxFor(m => m.diaChi, new { @class = "form-control", @placeholder = "Customer address" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="order-message">
+                            <p>Thông tin khác</p>
+                            <div class="form-group">
+                                <label for="ghiChu">Thông tin ghi chú</label>
+                                @Html.TextAreaFor(m => m.ghiChu, new
+                                {
+                                    @class = "form-control",
+                                    @placeholder = "Thông tin ghi chú cần nhà bán hàng ghi nhận",
+                                    @rows = "8",
+                                    @style = "padding-bottom:9px"
+                                })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+    <hr />
+    <div class="review-payment">
+        <div class="row gach">
+            <div class="heading">
+                <h3>Detailed information about the selected product to buy</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="table-responsive cart-info">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr class=" cart_menu">
+                            <td class="image">Item</td>
+                            <td class="description"></td>
+                            <td class="price">Price</td>
+                            <td class="quantity">Quantity</td>
+                            <td class="total">Total</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (CtDonHang i in x.SanPhamDC.Values)
+                            {
+                                <tr>
+                                    <td class="cart_product">
+                                        <a href=""><img style="height:120px;width:120px" src="@Common.GetImageOfProductsById(i.maSP)" /></a>
+                                    </td>
+                                    <td class="cart_description">
+                                        <h5><a href="">@Common.GetNameOfProductsById(i.maSP)</a></h5>
+                                        <p> ID : @i.maSP</p>
+                                    </td>
+                                    <td class="cart_price">
+                                        <p>@string.Format("{0:###,###,###0 .VNĐ}", i.giaBan)</p>
+                                    </td>
+                                    <td class="cart_quantity">
+                                        <div class="cart_quantity_button">
+                                            <input class="cart_quantity_input" type="text" name="quantity" value="@i.soLuong" autocomplete="off" size="2" />
+                                        </div>
+                                    </td>
+                                    <td class="cart_total">
+                                        <p class="cart_total_price">
+                                            @string.Format("{0:###,###,###0 .VNĐ}", x.moneyOfOneProduct(i))
+                                        </p>
+                                    </td>
+                                    <td class="cart_delete">
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row gach">
+            <div class="heading">
+                <h3>Total value - Tax - Delivery fee - Total amount</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="total_area">
+                    <ul>
+                        <li style="background-color: lightgray; margin-top: 5px; padding: 0px 0px 0px 22px; font-weight: bold; ">Total value :<span style="right: 30px; position: absolute; font-weight: bold;">@string.Format("{0:###,###,###0 .VNĐ}", x.totalOfCartShop())</span></li>
+                        <li style="background-color: lightgray; margin-top: 5px; padding: 0px 0px 0px 22px; font-weight: bold; ">Tax VAT 10% :<span style="right: 30px; position: absolute; font-weight: bold;">@string.Format("{0:###,###,###0 .VNĐ}", ((x.totalOfCartShop() * 10) / 100))</span></li>
+                        <li style="background-color: lightgray; margin-top: 5px; padding: 0px 0px 0px 22px; font-weight: bold; ">Delivery fee : <span style="right: 30px; position: absolute; font-weight: bold;">Free</span></li>
+                        <li style="background-color: lightgray; margin-top: 5px; padding: 0px 0px 0px 22px; font-weight: bold; ">Total amount :<span style="right: 30px; position: absolute; font-weight: bold;">@string.Format("{0:###,###,###0 .VNĐ}", (x.totalOfCartShop() + (x.totalOfCartShop() * 10) / 100))</span></li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
